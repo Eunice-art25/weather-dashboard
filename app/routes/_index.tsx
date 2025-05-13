@@ -16,7 +16,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const units = url.searchParams.get('units') as 'metric' | 'imperial' || 'metric';
   
   try {
-    const { getWeatherData } = await import('~/services/weather.server');
+    const { getWeatherData } = await import('~/utils/weather.server');
     const weatherData = await getWeatherData(city, units);
     return json({ weatherData, city, units });
   } catch (error) {
@@ -26,13 +26,10 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const { weatherData: initialWeatherData, city, units: initialUnits } = 
-    useLoaderData<typeof loader>();
+  const { weatherData, city, units } = useLoaderData<typeof loader>();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [weatherData, setWeatherData] = useState(initialWeatherData);
-  const [units, setUnits] = useState<'metric' | 'imperial'>(initialUnits);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -45,26 +42,8 @@ export default function Index() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const handleLocationRequest = () => {
-    if ('geolocation' in navigator) {
-      setIsLoading(true);
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          // In the future, this will fetch weather data for the user's location
-          console.log('Location:', position.coords);
-          setIsLoading(false);
-        },
-        (error) => {
-          console.error('Error getting location:', error);
-          setIsLoading(false);
-        }
-      );
-    }
-  };
-
   const handleUnitToggle = () => {
     const newUnits = units === 'metric' ? 'imperial' : 'metric';
-    setUnits(newUnits);
     setSearchParams(prev => {
       prev.set('units', newUnits);
       return prev;
@@ -94,7 +73,7 @@ export default function Index() {
         <Header
           onDarkModeToggle={handleDarkModeToggle}
           isDarkMode={isDarkMode}
-          onLocationRequest={handleLocationRequest}
+          onLocationRequest={handleSelectLocation}
         />
         
         <main className="space-y-6">
