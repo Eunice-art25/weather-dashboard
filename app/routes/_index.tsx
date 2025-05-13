@@ -12,15 +12,18 @@ import type { WeatherResponse } from '~/types/weather';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
-  const apiUrl = new URL('/api/weather', url.origin);
-  apiUrl.searchParams.set('city', url.searchParams.get('city') || 'london');
-  apiUrl.searchParams.set('units', url.searchParams.get('units') || 'metric');
+  const city = url.searchParams.get('city')?.toLowerCase() || 'london';
+  const units = url.searchParams.get('units') as 'metric' | 'imperial' || 'metric';
   
-  const response = await fetch(apiUrl);
-  if (!response.ok) {
-    throw new Response('Error fetching weather data', { status: response.status });
+  try {
+    // Import server-side code dynamically
+    const { getWeatherData } = await import('~/utils/weather.server');
+    const weatherData = await getWeatherData(city, units);
+    return json({ weatherData, city, units });
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    throw new Response('Error fetching weather data', { status: 500 });
   }
-  return json(await response.json());
 };
 
 export default function Index() {
