@@ -1,10 +1,10 @@
-import type { Config } from "tailwindcss";
-
-export default {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
     "./app/**/*.{js,jsx,ts,tsx}",
     "./app/components/**/*.{js,jsx,ts,tsx}",
     "./app/routes/**/*.{js,jsx,ts,tsx}",
+    "./app/styles/**/*.{css}",
   ],
   darkMode: 'class',
   theme: {
@@ -14,11 +14,13 @@ export default {
           "Inter",
           "ui-sans-serif",
           "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
           "sans-serif",
-          "Apple Color Emoji",
-          "Segoe UI Emoji",
-          "Segoe UI Symbol",
-          "Noto Color Emoji",
         ],
       },
       colors: {
@@ -28,4 +30,4 @@ export default {
     },
   },
   plugins: [require('@tailwindcss/forms')],
-} satisfies Config;
+} 

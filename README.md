@@ -1,40 +1,47 @@
-# Welcome to Remix!
+# Weather Dashboard
 
-- 📖 [Remix docs](https://remix.run/docs)
+A modern weather dashboard built with Remix, React, and Tailwind CSS.
+
+## Features
+
+- Real-time weather data
+- Location search
+- Hourly and daily forecasts
+- Dark mode support
+- Responsive design
+- Favorite locations
 
 ## Development
 
-Run the dev server:
-
-```shellscript
+```bash
+npm install
 npm run dev
 ```
 
-## Deployment
+## Deployment on Vercel
 
-First, build your app for production:
+1. Fork or clone this repository
+2. Create a new project on Vercel
+3. Connect your repository to Vercel
+4. Add the following environment variable in Vercel:
+   - `OPENWEATHERMAP_API_KEY`: Your OpenWeatherMap API key
+5. Deploy!
 
-```sh
-npm run build
+## Environment Variables
+
+Create a `.env` file in the root directory with:
+
+```env
+OPENWEATHERMAP_API_KEY=your_api_key_here
 ```
 
-Then run the app in production mode:
+## Tech Stack
 
-```sh
-npm start
-```
+- [Remix](https://remix.run)
+- [React](https://reactjs.org)
+- [Tailwind CSS](https://tailwindcss.com)
+- [OpenWeatherMap API](https://openweathermap.org/api)
 
-Now you'll need to pick a host to deploy it to.
+## License
 
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+MIT
